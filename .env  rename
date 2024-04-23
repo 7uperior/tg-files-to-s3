@@ -1,0 +1,28 @@
+# FastAPI
+secret_key=d751923806645de8f6f6376798574ef844bb6d6d5ca36a8224718a84c775ad19
+algorithm=HS256
+access_token_expire_minute=30
+
+# PostgreSQL
+POSTGRES_PASSWORD=123
+POSTGRES_DB=fastapi
+db_user=postgres
+db_password=123
+db_host=postgres
+db_port=5432
+db_name=fastapi
+
+# MinIO
+MINIO_ROOT_USER=yourSecureUsername
+MINIO_ROOT_PASSWORD=yourSecurePassword
+
+# RabbitMQ
+RABBITMQ_USER=yourRabbitUser
+RABBITMQ_PASSWORD=yourRabbitPassword
+RABBITMQ_HOST=rabbitmq
+RABBITMQ_PORT=5672
+
+# TG-bot Pyrogram according to documentation 
+TELEGRAM_API_ID=1234
+TELEGRAM_API_HASH=''
+TELEGRAM_BOT_TOKEN=''

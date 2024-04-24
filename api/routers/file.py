@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 @router.post('/', status_code=status.HTTP_201_CREATED)
 async def upload_file(
 	file: UploadFile,
-	current_user: models.User = Depends(oauth2.get_current_user),
+	# current_user: models.User = Depends(oauth2.get_current_user),
 	client: files.Minio = Depends(files.get_minio_client),
 	message_publisher: queue.Awaitable = Depends(queue.get_publisher),
 ):
@@ -27,7 +27,8 @@ async def upload_file(
 	try:
 		file_data = await file.read()  # Ensure file data is read asynchronously
 		file_size = len(file_data)  # Get the file size from the data length
-		object_name = f'{current_user.id}/{file.filename}'
+		# object_name = f'{current_user.id}/{file.filename}'
+		object_name = f'{file.filename}'
 
 		# Upload the file to Minio asynchronously using the helper function
 		await files.upload_file_to_minio(client, files.BUCKET, object_name, file_data, file_size)

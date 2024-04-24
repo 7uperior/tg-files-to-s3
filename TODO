@@ -1,6 +1,9 @@
 - [x] add tg creds to .env
 - [x] Implement file upload functionality via bot
-- [x] Add new user to database with TGid with initial balance 10 credits via tg-bot
+- [x] feat: Implement user creation with Telegram ID and initial credit
+  - [x] - Update the `create_user_via_tgid` endpoint to properly handle and store the `telegram_id`.
+  - [x] Ensure users created via Telegram bot are initialized with 10 credits.
+  - [x]  Adjust user model to include `telegram_id` in database schema.
 - [ ] Develop logic for uploading a single file and deducting balances accordingly
 - [ ] Implement 2 file upload functionality via bot
 - [ ] Develop logic for uploading 2 file and deducting balances accordingly

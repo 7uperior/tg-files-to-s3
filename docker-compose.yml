@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   api:
-    build: api
+    build: ./api
     command: uvicorn api.main:app --host=0.0.0.0 --port=8000 --reload --reload-include **
     ports:
       - 8000:8000
@@ -17,6 +17,19 @@ services:
         - .env
     volumes:
       - ./api/:/src/api/
+    networks:
+      - my_network
+
+  tg_bot:
+    build: ./tg_bot
+    ports:
+      - "5000:5000" # for webhooks
+    environment:
+      - TELEGRAM_API_ID=${TELEGRAM_API_ID}
+      - TELEGRAM_API_HASH=${TELEGRAM_API_HASH}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+    volumes:
+      - ./tg_bot:/app
     networks:
       - my_network
 
@@ -54,7 +67,7 @@ services:
       - my_network
 
   rabbitmq:
-    image: rabbitmq:management
+    build: ./rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"  # Management UI

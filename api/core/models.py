@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import Optional, List
-from pydantic import BaseModel, EmailStr, constr
+from pydantic import BaseModel, EmailStr, constr, validator
+from pydantic import Field as PydanticField
 from sqlmodel import Field, SQLModel, Relationship, Index
 
 class UserBase(SQLModel):
@@ -53,3 +54,21 @@ class Transaction(SQLModel, table=True):
     transaction_type: constr(regex="^(top-up|reduction)$") = Field()
     created_at: datetime = Field(default_factory=datetime.utcnow)
     user: User = Relationship(back_populates="transactions")
+    
+class FilesPricing(SQLModel, table=True):
+    id: int = Field(default=None, primary_key=True)
+    price_per_minute: float = Field()
+    price_per_size: float = Field()  # price per MB
+    extra_buffer_percentage: int = Field()
+
+
+class FilesPricingCreate(BaseModel):
+    price_per_minute: float = PydanticField(..., example=1.50)
+    price_per_size: float = PydanticField(..., example=0.25)
+    extra_buffer_percentage: int = PydanticField(..., example=10)
+
+    @validator('price_per_minute', 'price_per_size', 'extra_buffer_percentage')
+    def check_values_greater_than_zero(cls, v):
+        if v <= 0:
+            raise ValueError("must be greater than zero")
+        return v

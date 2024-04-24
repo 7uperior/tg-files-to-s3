@@ -54,3 +54,10 @@ def get_user(email: str, session: Session) -> Union[models.User, None]:
 def get_user_by_telegram_id(telegram_id: str, session: Session) -> Union[models.User, None]:
     """Retrieve one user from the database based on Telegram ID."""
     return session.exec(select(models.User).where(models.User.telegram_id == telegram_id)).first()
+
+def get_latest_files_pricing(session: Session) -> Union[models.FilesPricing, None]:
+    """Retrieve the latest file pricing configuration from the database."""
+    latest_pricing = session.exec(
+        select(models.FilesPricing).order_by(models.FilesPricing.id.desc())
+    ).first()
+    return latest_pricing

@@ -4,7 +4,7 @@ from sqlmodel import Session, select
 
 from .core import database
 from .core.models import User, UserCreate
-from .routers import auth, file, balance, transaction, user as user_router
+from .routers import auth, file, balance, transaction, pricing, user as user_router
 from .core.oauth2 import hash_password  # Ensure this is correctly imported
 
 app = FastAPI()
@@ -14,6 +14,7 @@ app.include_router(file.router)
 app.include_router(user_router.router)
 app.include_router(balance.router)
 app.include_router(transaction.router)
+app.include_router(pricing.router)
 
 
 @app.on_event("startup")

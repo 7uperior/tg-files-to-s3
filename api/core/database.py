@@ -50,3 +50,7 @@ def get_user(email: str, session: Session) -> Union[models.User, None]:
 
     _user = session.exec(select(models.User).where(models.User.email == email)).first()
     return _user
+
+def get_user_by_telegram_id(telegram_id: str, session: Session) -> Union[models.User, None]:
+    """Retrieve one user from the database based on Telegram ID."""
+    return session.exec(select(models.User).where(models.User.telegram_id == telegram_id)).first()

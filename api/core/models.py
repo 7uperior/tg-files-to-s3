@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Optional, List
-from pydantic import BaseModel, EmailStr, constr, validator
+from pydantic import BaseModel, EmailStr, constr
 from sqlmodel import Field, SQLModel, Relationship, Index
 
 class UserBase(SQLModel):
@@ -11,6 +11,12 @@ class UserCreate(BaseModel):
     """User data required explicitly for creating a new user."""
     email: EmailStr
     password: str
+    telegram_id: str
+
+
+class UserTelegramCreate(BaseModel):
+    """Model for creating a user via Telegram ID."""
+    telegram_id: str
 
 class User(UserBase, table=True):
     """User model representing an authenticated user in the system."""
@@ -18,6 +24,7 @@ class User(UserBase, table=True):
     __table_args__ = {'extend_existing': True}
 
     id: Optional[int] = Field(default=None, primary_key=True)
+    telegram_id: Optional[str] = Field(default=None, index=True, nullable=True, description="The user's Telegram ID.")
     password: str = Field(description="The user's hashed password.")
     created_at: datetime = Field(default_factory=datetime.utcnow, index=True)
     transactions: List["Transaction"] = Relationship(back_populates="user")

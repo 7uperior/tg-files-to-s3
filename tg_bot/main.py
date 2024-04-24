@@ -17,14 +17,28 @@ app = Client('tg_bot', in_memory=True, api_id=TELEGRAM_API_ID, api_hash=TELEGRAM
 BASE_URL = "http://api:8000"
 BALANCE_ENDPOINT = "/users/balance/"
 
-@app.on_message(filters.regex(r"^/balance_(\d+)$") & filters.private)
-async def receive_balance(client, message):
-    client_id = message.matches[0].group(1)
+@app.on_message(filters.command("start") & filters.private)
+async def start(client, message):
+    telegram_id = str(message.from_user.id)
     try:
-        response = requests.get(f"{BASE_URL}{BALANCE_ENDPOINT}{client_id}")
+        # Create a new user with the Telegram ID
+        response = requests.post(f"{BASE_URL}/users/create_via_tgid", json={'telegram_id': telegram_id})
+        if response.ok:
+            await message.reply("Welcome to the service! Your account has been created with 10 credits.")
+        else:
+            await message.reply(f"Failed to create user account: {response.status_code} - {response.text}")
+    except requests.exceptions.RequestException as e:
+        await message.reply(f"Network error occurred: {str(e)}")
+
+@app.on_message(filters.command("balance") & filters.private)
+async def receive_balance(client, message):
+    telegram_id = str(message.from_user.id)
+    try:
+        # Assuming your backend handles Telegram ID as a unique identifier for fetching balance
+        response = requests.get(f"{BASE_URL}{BALANCE_ENDPOINT}{telegram_id}")
         if response.ok:
             balance = response.json().get('balance')
-            await message.reply(f"Balance for client {client_id}: {balance}")
+            await message.reply(f"Your current balance is: {balance}")
         else:
             await message.reply(f"Failed to fetch balance: {response.status_code} - {response.text}")
     except requests.exceptions.RequestException as e:

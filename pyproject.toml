@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tg-files-to-s3"
-version = "0.10.0"
+version = "0.1.0"
 description = "pg-fastapi-rabbitmq-minio-pyrogram-docker"
 authors = ["vadim <vdmsurin@gmail.com>"]
 license = "MIT"

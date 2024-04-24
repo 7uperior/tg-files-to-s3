@@ -1,5 +1,5 @@
-add tg creds to .env
-Implement file upload functionality via bot
-Develop logic for uploading a single file and deducting balances accordingly
-Implement 2 file upload functionality via bot
-Develop logic for uploading 2 file and deducting balances accordingly
+- [x] add tg creds to .env
+- [ ] Implement file upload functionality via bot
+- [ ] Develop logic for uploading a single file and deducting balances accordingly
+- [ ] Implement 2 file upload functionality via bot
+- [ ] Develop logic for uploading 2 file and deducting balances accordingly

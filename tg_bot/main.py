@@ -107,9 +107,9 @@ async def handle_file_upload(client, message):
             response = requests.post(f"{BASE_URL}/files/", files=files)
 
             if response.ok:
-                await message.reply(f"Audio file {default_file_name} uploaded successfully to S3!")
+                await message.reply(f"Audio file {default_file_name} uploaded successfully to S3!", quote=True)
             else:
-                error_details = response.json().get('detail', 'Failed to upload file.')
+                error_details = response.json().get('detail', 'Failed to upload file {default_file_name}.', quote=True)
                 await message.reply(f"Failed to upload file: {response.status_code} - {error_details}")
     except Exception as e:
         await message.reply(f"An error occurred: {str(e)}")

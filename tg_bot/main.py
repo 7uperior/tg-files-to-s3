@@ -73,8 +73,7 @@ async def handle_file_upload(client, message):
         return
 
     pricing = pricing_response.json()
-    price_per_second = pricing.get('price_per_second', 0.01)
-    estimated_cost = round(file_size_mb * pricing['price_per_size'] + audio_duration * price_per_second, 2)
+    estimated_cost = round(file_size_mb * pricing['price_per_size'] + audio_duration * pricing['price_per_minute'], 2)
     buffer_cost = round(estimated_cost * (1 + (pricing['extra_buffer_percentage'] / 100)), 2)
 
     balance_response = requests.get(f"{BASE_URL}{BALANCE_ENDPOINT}{telegram_id}")
